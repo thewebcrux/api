@@ -45,7 +45,7 @@ router.post("/", (req,res)=>{
     db.getConnection((err, connection) => {
         if(err) throw err
         console.log('connected as id ' + connection.threadId)
-        connection.query(`INSERT INTO tasks (task, points, total_spots, created_by, spots_left) VALUES ('${req.body.task}',${req.body.points},${req.body.total_spots},${req.body.created_by},${req.body.total_spots});`, (err, output) => {
+        connection.query(`INSERT INTO tasks (task, points, total_spots, created_by, spots_left) VALUES ('${req.body.task}',${req.body.points},${req.body.total_spots},'${req.body.created_by}',${req.body.total_spots});`, (err, output) => {
             connection.release() // return the connection to pool
 
             if (!err) {

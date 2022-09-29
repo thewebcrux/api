@@ -11,7 +11,7 @@ router.get("/:userID", (req,res)=>{
     db.getConnection((err, connection) => {
         if(err) throw err
         console.log('connected as id ' + connection.threadId)
-        connection.query(`SELECT * from users where userID= ${req.params.userID}`, (err, rows) => {
+        connection.query(`SELECT * from users where userID= '${req.params.userID}'`, (err, rows) => {
             connection.release() // return the connection to pool
 
             if (!err) {
@@ -30,7 +30,7 @@ router.post("/", (req,res)=>{
     db.getConnection((err, connection) => {
         if(err) throw err
         console.log('connected as id ' + connection.threadId)
-        connection.query(`INSERT INTO users (userID, verificationToken, email) VALUES (${req.body.id}, '${req.body.token}', '${req.body.email}')`, (err, output) => {
+        connection.query(`INSERT INTO users (userID, verificationToken, email) VALUES ('${req.body.id}', '${req.body.token}', '${req.body.email}')`, (err, output) => {
             connection.release() // return the connection to pool
 
             if (!err) {
