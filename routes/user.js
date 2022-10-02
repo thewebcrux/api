@@ -50,7 +50,7 @@ router.put("/:userID", (req,res)=>{
     db.getConnection((err, connection) => {
         if(err) throw err
         console.log('connected as id ' + connection.threadId)
-        connection.query(`update users SET verified="yes" where userID=${req.params.userID}`, (err, output) => {
+        connection.query(`update users SET ${req.body.column}='${req.body.value}' where userID=${req.params.userID}`, (err, output) => {
             connection.release() // return the connection to pool
 
             if (!err) {

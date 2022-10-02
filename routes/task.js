@@ -61,7 +61,22 @@ router.post("/", (req,res)=>{
 });
 
 router.put("/:taskID", (req,res)=>{
-    res.json("Update on Task ID : "+ req.params.taskID);
+    db.getConnection((err, connection) => {
+        if(err) throw err
+        console.log('connected as id ' + connection.threadId)
+        connection.query(`update tasks SET ${req.body.column}='${req.body.value}' where taskID=${req.params.taskID}`, (err, output) => {
+            connection.release() // return the connection to pool
+
+            if (!err) {
+                res.send([{"status": "ok", "message": `Verification Status Updated`}])
+
+                console.log(output)
+            } else {
+                console.log(err)
+                res.send([{"Error": "Bleep Blop .. Something nasty happened while updating you.."}])
+            }
+        })
+    });
 });
 
 module.exports = router;
