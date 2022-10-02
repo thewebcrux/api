@@ -54,7 +54,26 @@ router.put("/:userID", (req,res)=>{
             connection.release() // return the connection to pool
 
             if (!err) {
-                res.send([{"status": "ok", "message": `Verification Status Updated`}])
+                res.send([{"status": "ok", "message": `Status Updated`}])
+
+                console.log(output)
+            } else {
+                console.log(err)
+                res.send([{"Error": "Bleep Blop .. Something nasty happened while updating you.."}])
+            }
+        })
+    });
+});
+
+router.put("/:userID/:exp", (req,res)=>{
+    db.getConnection((err, connection) => {
+        if(err) throw err
+        console.log('connected as id ' + connection.threadId)
+        connection.query(`update users SET ${req.body.column}=${req.body.column}${req.params.exp} where userID=${req.params.userID}`, (err, output) => {
+            connection.release() // return the connection to pool
+
+            if (!err) {
+                res.send([{"status": "ok", "message": `${req.body.column} Status Updated`}])
 
                 console.log(output)
             } else {
