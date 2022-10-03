@@ -22,11 +22,12 @@ router.get("/", (req,res)=>{
     });
 });
 
-router.get("/:ID", (req,res)=>{
+router.get("/selective", (req,res)=>{
+    console.log(req.query)
     db.getConnection((err, connection) => {
         if(err) throw err
         console.log('connected as id ' + connection.threadId)
-        connection.query(`SELECT userID,taskID from merger where taskID=${req.params.ID} || userID='${req.params.ID}'`, (err, rows) => {
+        connection.query(`SELECT * from merger where taskID=${req.query.taskID} && userID='${req.query.userID}'`, (err, rows) => {
             connection.release() // return the connection to pool
 
             if (!err) {
@@ -40,6 +41,7 @@ router.get("/:ID", (req,res)=>{
         })
     });
 });
+
 
 router.post("/", (req,res)=>{
     db.getConnection((err, connection) => {
