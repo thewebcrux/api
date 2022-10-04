@@ -1,7 +1,7 @@
 const express = require('express');
 const db = require('../database/database_connection');
 const axios = require('axios');
-const { webhook_url } = require('../.config.json');
+const { webhook_for_tasks } = require('../.config.json');
 let router = express.Router();
 
 router.get("/", (req,res)=>{
@@ -107,7 +107,7 @@ function webhook_call(task,creator,points,spots,channelID){
         "content": `Task : **${task}** \n Added By: **<@${creator}>** \n Total Spots **${spots}** \n Points : **${points}** \n Channel : <#${channelID}>`,
         "username": "Task Added"
     };
-    axios.post(webhook_url, body)
+    axios.post(webhook_for_tasks, body)
         .then((response) => {
             console.log("Webhook Trigger Response \n"+response.data)
             return ;

@@ -1,7 +1,7 @@
 const express = require('express');
 const db = require('../database/database_connection');
 const axios = require('axios');
-const { webhook_url } = require('../.config.json');
+const { webhook_for_users } = require('../.config.json');
 let router = express.Router();
 
 router.get("/", (req,res)=>{
@@ -71,7 +71,7 @@ function webhook_call(userID, channelID){
         "content": `<@${userID}> has joined a task. Task specific channel : <#${channelID}>`,
         "username": "Joined Task"
     };
-    axios.post(webhook_url, body)
+    axios.post(webhook_for_users, body)
         .then((response) => {
             console.log("Webhook Trigger Response \n"+response.data)
             return ;
