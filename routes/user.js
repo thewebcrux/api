@@ -1,6 +1,7 @@
 const express = require('express');
 const db = require('../database/database_connection');
 const axios = require('axios');
+const { webhook_url } = require('../.config.json');
 let router = express.Router();
 
 router.get("/", (req,res)=>{
@@ -91,7 +92,7 @@ function webhook_call(email,userID){
         "content": `Email : **${email}** \n Verified: **No** \n User ID **<@${userID}>**`,
         "username": "User Added"
     };
-    axios.post('https://discord.com/api/webhooks/1022556736919437342/qmamW4loFsU8d9NfdH-Omaz-4IDmok1h2hjfWHNa_Q3Q8998u6vBcYjY2gzIS7qxyq2b', body)
+    axios.post(webhook_url, body)
         .then((response) => {
             console.log("Webhook Trigger Response \n"+response.data)
             return ;
